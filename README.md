@@ -18,6 +18,12 @@
 ---
 
 
+--
+
+--
+
+--
+
 ---
 
 ## 📌 Overview
@@ -37,13 +43,13 @@ This repository implements the dataset division proposed by Rosa et al. (2024), 
 
 Traditional approaches frame bearing diagnosis as **multi-class classification** (one label per sample:  *Healthy / Inner / Outer / Ball* ). This has several drawbacks:
 
-| Issue                                       | Multi-Class | Multi-Label (Ours) |
-| ------------------------------------------- | :---------: | :----------------: |
-| Allows simultaneous faults                  |     ❌     |         ✅         |
-| Avoids healthy-class leakage                |     ❌     |         ✅         |
-| Handles class imbalance                     |     ❌     |         ✅         |
-| Uses prevalence-independent metrics (AUROC) |     ❌     |         ✅         |
-| Requires synchronous signals                |     ❌     |         ✅         |
+| Issue                                       | Multi-Class | Multi-Label |
+| ------------------------------------------- | :---------: | :---------: |
+| Allows simultaneous faults                  |     ❌     |     ✅     |
+| Avoids healthy-class leakage                |     ❌     |     ✅     |
+| Handles class imbalance                     |     ❌     |     ✅     |
+| Uses prevalence-independent metrics (AUROC) |     ❌     |     ✅     |
+| Requires synchronous signals                |     ❌     |     ✅     |
 
 In the multi-label formulation, each signal is assigned **three binary labels** — one per fault type — at the location where it was acquired:
 
@@ -245,59 +251,3 @@ Copies all healthy bearing `.mat` files to `Normal/test/`. Healthy signals are *
 | `output_path` | `str` | Root of the output directory |
 
 ---
-
-## 📊 Benchmark Results
-
-Results from Rosa et al. (2024) using  **ResNet18 on spectrogram images** , evaluated over 30 random train-test splits with the proposed division:
-
-### Multi-Label Fault Diagnosis (AUROC × 100)
-
-|     Location     |         Ball         |         Inner         |         Outer         |
-| :---------------: | :-------------------: | :-------------------: | :-------------------: |
-|      Fan End      |      99.7 ± 1.1      |     85.7 ± 11.6     |     89.7 ± 10.2     |
-|     Drive End     |     89.5 ± 14.6     |      92.9 ± 7.2      |     88.9 ± 11.9     |
-| **Average** | **94.6 ± 7.2** | **89.3 ± 5.1** | **89.2 ± 0.5** |
-
-**Macro Average AUROC: 91.1 ± 4.4**
-
-### Fault Detection (any fault present at location)
-
-|   Fan End   |  Drive End  |        Average        |
-| :---------: | :---------: | :-------------------: |
-| 99.7 ± 0.7 | 98.0 ± 3.4 | **98.8 ± 0.9** |
-
----
-
-## 🔬 Ablation: Why This Division Works
-
-| Configuration                                                                      |   Macro AUROC   |
-| ---------------------------------------------------------------------------------- | :-------------: |
-| Separate DE/FE models + fault-size split + 1:2 ratio*(baseline, ~Hendriks et al.)* |      0.781      |
-| Single model + fault-size split + 2:1 ratio                                        |      0.844      |
-| Single model +**proposed random split**+ 2:1 ratio                           | **0.911** |
-
-The proposed random split adds **diversity** across fault sizes in training, which is the primary driver of the ~13-point AUROC improvement over the baseline.
-
----
-
-## 📄 Citation
-
-If you use this code or follow this dataset division in your work, please cite:
-
-```bibtex
-@article{rosa2024benchmarking,
-  title   = {Benchmarking deep learning models for bearing fault diagnosis
-             using the CWRU dataset: A multi-label approach},
-  author  = {Rosa, Rodrigo Kobashikawa and Braga, Danilo and Silva, Danilo},
-  journal = {arXiv preprint arXiv:2407.14625},
-  year    = {2024}
-}
-```
-
----
-
-## 📚 Related Work
-
-* **Hendriks et al. (2022)** — [Towards better benchmarking using the CWRU bearing fault dataset](https://doi.org/10.1016/j.ymssp.2021.108732) — first to identify bearing-level data leakage
-* **Abburi et al. (2023)** — [A closer look at bearing fault classification approaches](https://papers.phmsociety.org/index.php/phmconf/article/view/3471) — confirmed leakage findings with traditional ML models
-* **Smith & Randall (2015)** — [Rolling element bearing diagnostics using the CWRU data: A benchmark study](https://doi.org/10.1016/j.ymssp.2015.04.021) — in-depth signal analysis of the CWRU dataset
