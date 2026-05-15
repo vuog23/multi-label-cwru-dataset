@@ -8,24 +8,6 @@
 [![License](https://img.shields.io/badge/License-MIT-22c55e?style=flat-square)](https://claude.ai/chat/LICENSE)
 [![Dataset](https://img.shields.io/badge/Dataset-CWRU-f59e0b?style=flat-square)](https://engineering.case.edu/bearingdatacenter)
 
-<br/>
->
-> *Based on:* **"Benchmarking deep learning models for bearing fault diagnosis using the CWRU dataset: A multi-label approach"**
-> Rosa et al., 2024 — [arXiv:2407.14625](https://arxiv.org/abs/2407.14625)
->
-
-</div>
----
-
-
---
-
---
-
---
-
----
-
 ## 📌 Overview
 
 The **Case Western Reserve University (CWRU)** bearing fault dataset is one of the most widely used benchmarks in rotating machinery fault diagnosis. However, the  **standard dataset divisions found in the literature suffer from data leakage** , producing over-optimistic results that fail to generalize to real-world scenarios.
@@ -43,13 +25,13 @@ This repository implements the dataset division proposed by Rosa et al. (2024), 
 
 Traditional approaches frame bearing diagnosis as **multi-class classification** (one label per sample:  *Healthy / Inner / Outer / Ball* ). This has several drawbacks:
 
-| Issue                                       | Multi-Class | Multi-Label |
-| ------------------------------------------- | :---------: | :---------: |
-| Allows simultaneous faults                  |     ❌     |     ✅     |
-| Avoids healthy-class leakage                |     ❌     |     ✅     |
-| Handles class imbalance                     |     ❌     |     ✅     |
-| Uses prevalence-independent metrics (AUROC) |     ❌     |     ✅     |
-| Requires synchronous signals                |     ❌     |     ✅     |
+| Issue                                       | Multi-Class | Multi-Label ) |
+| ------------------------------------------- | :---------: | :-----------: |
+| Allows simultaneous faults                  |     ❌     |      ✅      |
+| Avoids healthy-class leakage                |     ❌     |      ✅      |
+| Handles class imbalance                     |     ❌     |      ✅      |
+| Uses prevalence-independent metrics (AUROC) |     ❌     |      ✅      |
+| Requires synchronous signals                |     ❌     |      ✅      |
 
 In the multi-label formulation, each signal is assigned **three binary labels** — one per fault type — at the location where it was acquired:
 
